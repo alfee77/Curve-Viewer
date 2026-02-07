@@ -1,7 +1,4 @@
 import { Chart } from "chart.js/auto";
-import zoomPlugin from "chartjs-plugin-zoom";
-
-Chart.register(zoomPlugin);
 
 const form = document.querySelector("#curve-creator-input");
 const curveNameElement = document.getElementById("curve-name");
@@ -18,8 +15,6 @@ const colorPalette = ["#f79256ff", "#7dcfb6ff", "#00b2caff", "#1d4e89ff"];
 for (let i = 0; i < 4; i++) {
   arrayOfCurvesCards.push(document.querySelector(`.cdc${i}`));
 }
-
-console.log(arrayOfCurvesCards);
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -105,8 +100,6 @@ form.addEventListener("submit", (event) => {
 });
 
 function drawChart(arrayOfCurves) {
-  console.log(arrayOfCurves);
-
   const data = {
     datasets: arrayOfCurves,
   };
@@ -115,34 +108,6 @@ function drawChart(arrayOfCurves) {
     type: "line",
     data,
     options: {
-      //maintainAspectRation: true,
-      plugins: {
-        zoom: {
-          zoom: {
-            wheel: {
-              enabled: true,
-            },
-            pinch: {
-              enabled: true,
-            },
-            mode: "xy",
-          },
-          limits: {
-            x: {
-              max: 63000,
-            },
-            y: {
-              max: 10,
-            },
-          },
-          pan: {
-            enabled: true,
-            modifierKet: `xy`,
-            scaleMde: `xy`,
-          },
-        },
-      },
-
       scales: {
         x: {
           type: "logarithmic",
@@ -165,4 +130,30 @@ function drawChart(arrayOfCurves) {
     myChart.destroy();
     myChart = new Chart(chartArea, config);
   }
+}
+
+// Get the modal and it's sub elements
+const modal = document.getElementById("myModal");
+const modalCurveName = document.getElementById("m-curve-name");
+const modalCurveType = document.getElementById("m-curve-type");
+const modalPickUpSetting = document.getElementById("m-pick-up-setting");
+const modalTimeMultiplier = document.getElementById("m-time-multiplier");
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+for (let i = 0; i < arrayOfCurvesCards.length; i++) {
+  arrayOfCurvesCards[i].addEventListener("click", (event) => {
+    event.preventDefault();
+    console.log(arrayOfCurvesCards[i]);
+    modal.style.display = "block";
+    modalCurveName.value = `${arrayOfCurves[i].curveName}`;
+    modalCurveType.value = `${arrayOfCurves[i].curveType}`;
+    modalPickUpSetting.value = `${arrayOfCurves[i].pickUpSetting}`;
+    modalTimeMultiplier.value = `${arrayOfCurves[i].timeMultiplier}`;
+  });
 }

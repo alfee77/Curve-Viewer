@@ -10,7 +10,7 @@ body {
 .page-layout {
   min-height: 100dvh;
   display: grid;
-  grid-template-columns: 300px 1fr 300px;
+  grid-template-columns: 400px 1fr 300px;
   grid-template-rows: auto 1fr auto;
   gap: 10px;
 }
@@ -44,7 +44,8 @@ footer {
   height: 100%;
 }
 
-.curve-creator-input {
+.curve-creator-input,
+.curve-modifier-input {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;

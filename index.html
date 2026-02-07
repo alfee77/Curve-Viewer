@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="main.css" />
-    <link rel="stylesheet" href="modal.css" />
+    <link rel="stylesheet" href="src/main.css" />
+    <link rel="stylesheet" href="src/modal.css" />
   </head>
   <body>
     <div class="page-layout">
@@ -55,14 +55,42 @@
         </div>
       </div>
 
-      <!-- Trigger/Open The Modal -->
-      <button id="myBtn">Open Modal</button>
-
       <div id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>Some text in the Modal..</p>
+          <!-- <span class="close">&times;</span> -->
+          <form
+            action=""
+            class="curve-modifier-input"
+            id="curve-modifier-input"
+          >
+            <label for="curve-name">Curve name:</label>
+            <input type="text" id="m-curve-name" value="Poop" />
+            <label for="curve-type">Curve type:</label>
+            <select name="curve-type" id="m-curve-type">
+              <option value="">--Choose--</option>
+              <option value="SI">Standard inverse</option>
+              <option value="VI">Very inverse</option>
+              <option value="EI">Extremely inverse</option>
+              <option value="LTI">Long time inverse</option>
+            </select>
+            <label for="pick-up-setting">Pick up setting:</label>
+            <input
+              type="number"
+              id="m-pick-up-setting"
+              name="pick-up-setting"
+            />
+            <label for="time-multiplier">Time multiplier:</label>
+            <input
+              type="number"
+              id="m-time-multiplier"
+              name="time-multiplier"
+              min="0"
+              max="1"
+              step="0.001"
+            />
+            <button type="save">Save</button>
+          </form>
         </div>
       </div>
       <footer>
@@ -71,5 +99,4 @@
     </div>
   </body>
   <script src="src/index.js" type="module"></script>
-  <script src="src/modal.js" type="module"></script>
 </html>

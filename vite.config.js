@@ -1,4 +1,4 @@
 export default {
   // config options
-  build: "/",
+  base: "/Curve-Viewer/",
 };

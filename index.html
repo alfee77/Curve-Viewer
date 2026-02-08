@@ -15,7 +15,7 @@
       <div class="curve-creator main-area">
         <h2>Enter curve data:</h2>
         <form action="" class="curve-creator-input" id="curve-creator-input">
-          <label for="curve-name">Curve name (e.g. "SGT1 HVOC"):</label>
+          <label for="curve-name">Curve name:</label>
           <input type="text" id="curve-name" />
           <label for="curve-type">Select curve type:</label>
           <select name="curve-type" id="curve-type">
@@ -52,6 +52,12 @@
           <div class="curve-card cdc1"></div>
           <div class="curve-card cdc2"></div>
           <div class="curve-card cdc3"></div>
+          <div class="curve-card cdc4"></div>
+          <div class="curve-card cdc5"></div>
+          <div class="curve-card cdc6"></div>
+          <div class="curve-card cdc7"></div>
+          <div class="curve-card cdc8"></div>
+          <div class="curve-card cdc9"></div>
         </div>
       </div>
 
@@ -89,7 +95,10 @@
               max="1"
               step="0.001"
             />
-            <button type="save">Save</button>
+            <button type="button" class="save-btn" id="m-save-btn">Save</button>
+            <button type="button" class="del-btn" id="m-delete-btn">
+              Delete
+            </button>
           </form>
         </div>
       </div>

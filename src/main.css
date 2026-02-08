@@ -95,9 +95,6 @@ footer {
   border: 1px solid gold;
 }
 
-@media print {
-}
-
 .curve-data-cards > * {
   visibility: hidden;
 }

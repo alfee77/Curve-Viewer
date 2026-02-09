@@ -1,4 +1,4 @@
-import { Chart } from "chart.js/auto";
+import { Chart, plugins } from "chart.js/auto";
 
 const form = document.querySelector("#curve-creator-input");
 const curveNameElement = document.getElementById("curve-name");
@@ -37,6 +37,7 @@ form.addEventListener("submit", (event) => {
     <div class="curve-card-title">
       <p>${arrayOfCurves[i].curveName}</p>
       <p>${arrayOfCurves[i].curveType}</p>
+      <div style="background: ${colorPalette[i]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
     <div class="curve-card-settings">
       <p>Pick Up Setting: ${arrayOfCurves[i].pickUpSetting} A</p>
@@ -48,26 +49,38 @@ form.addEventListener("submit", (event) => {
 });
 
 function drawChart(pArrayOfCurves) {
+  console.log(pArrayOfCurves);
   calculateChartData();
   if (myChart) {
     myChart.destroy();
   }
-  const data = {
-    datasets: pArrayOfCurves,
-  };
 
   const config = {
     type: "line",
-    data,
+    data: {
+      datasets: pArrayOfCurves,
+    },
     options: {
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
       scales: {
         x: {
           type: "logarithmic",
           position: "bottom",
+          title: {
+            display: true,
+            text: "Current (A)",
+          },
         },
         y: {
           type: "logarithmic",
-          text: "Time (s)",
+          title: {
+            display: true,
+            text: "Time (s)",
+          },
         },
       },
       pointRadius: 1,
@@ -124,6 +137,7 @@ modalSaveButton.addEventListener("click", (event) => {
     <div class="curve-card-title">
       <p>${arrayOfCurves[selectedCardIndex].curveName}</p>
       <p>${arrayOfCurves[selectedCardIndex].curveType}</p>
+      <div style="background: ${colorPalette[selectedCardIndex]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
     <div class="curve-card-settings">
       <p>Pick Up Setting: ${arrayOfCurves[selectedCardIndex].pickUpSetting} A</p>
@@ -157,6 +171,7 @@ modalDeleteButton.addEventListener("click", (event) => {
     <div class="curve-card-title">
       <p>${arrayOfCurves[i].curveName}</p>
       <p>${arrayOfCurves[i].curveType}</p>
+      <div style="background: ${colorPalette[i]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
     <div class="curve-card-settings">
       <p>Pick Up Setting: ${arrayOfCurves[i].pickUpSetting} A</p>

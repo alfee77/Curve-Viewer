@@ -36,10 +36,10 @@ form.addEventListener("submit", (event) => {
     arrayOfCurvesCards[i].innerHTML = `
     <div class="curve-card-title">
       <p>${arrayOfCurves[i].curveName}</p>
-      <p>${arrayOfCurves[i].curveType}</p>
       <div style="background: ${colorPalette[i]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
     <div class="curve-card-settings">
+      <p>Curve Type: ${arrayOfCurves[i].curveType}</p>
       <p>Pick Up Setting: ${arrayOfCurves[i].pickUpSetting} A</p>
       <p>Time Multiplier: ${arrayOfCurves[i].timeMultiplier}</p>
     </div>`;
@@ -136,10 +136,10 @@ modalSaveButton.addEventListener("click", (event) => {
   arrayOfCurvesCards[selectedCardIndex].innerHTML = `
     <div class="curve-card-title">
       <p>${arrayOfCurves[selectedCardIndex].curveName}</p>
-      <p>${arrayOfCurves[selectedCardIndex].curveType}</p>
       <div style="background: ${colorPalette[selectedCardIndex]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
     <div class="curve-card-settings">
+      <p>Curve Type: ${arrayOfCurves[selectedCardIndex].curveType}</p>
       <p>Pick Up Setting: ${arrayOfCurves[selectedCardIndex].pickUpSetting} A</p>
       <p>Time Multiplier: ${arrayOfCurves[selectedCardIndex].timeMultiplier}</p>
     </div>`;
@@ -170,10 +170,10 @@ modalDeleteButton.addEventListener("click", (event) => {
     arrayOfCurvesCards[i].innerHTML = `
     <div class="curve-card-title">
       <p>${arrayOfCurves[i].curveName}</p>
-      <p>${arrayOfCurves[i].curveType}</p>
       <div style="background: ${colorPalette[i]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
     <div class="curve-card-settings">
+      <p>Curve Type: ${arrayOfCurves[i].curveType}</p>
       <p>Pick Up Setting: ${arrayOfCurves[i].pickUpSetting} A</p>
       <p>Time Multiplier: ${arrayOfCurves[i].timeMultiplier}</p>
     </div>`;

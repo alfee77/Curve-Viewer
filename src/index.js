@@ -1,22 +1,36 @@
 import { Chart, plugins } from "chart.js/auto";
 
-const form = document.querySelector("#curve-creator-input");
+// Curve input elements
+const curveForm = document.getElementById("curve-creator-input");
 const curveNameElement = document.getElementById("curve-name");
 const curveTypeElement = document.getElementById("curve-type");
 const pickUpSettingElement = document.getElementById("pick-up-setting");
 const timeMultiplierElement = document.getElementById("time-multiplier");
 let arrayOfCurves = [];
-let arrayOfCurvesCards = [];
+
+//Fault level input elements
+const flForm = document.getElementById("fault-level-input");
+const faultLocationElement = document.getElementById("fault-location");
+const faultLevelElement = document.getElementById("fault-level");
+let arrayOfFLs = [];
+
+//chart elements
 const chartArea = document.querySelector("#theChart");
 let myChart;
-
 const colorPalette = ["#f79256ff", "#7dcfb6ff", "#00b2caff", "#1d4e89ff"];
 
+//card elements
+let arrayOfCurvesCards = [];
+let arrayOfFLCards = [];
 for (let i = 0; i < 10; i++) {
   arrayOfCurvesCards.push(document.querySelector(`.cdc${i}`));
 }
 
-form.addEventListener("submit", (event) => {
+for (let i = 0; i < 10; i++) {
+  arrayOfFLCards.push(document.querySelector(`.fldc${i}`));
+}
+
+curveForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const curve = {
@@ -34,11 +48,11 @@ form.addEventListener("submit", (event) => {
 
     arrayOfCurvesCards[i].classList.add("cdc-visible");
     arrayOfCurvesCards[i].innerHTML = `
-    <div class="curve-card-title">
+    <div class="card-title">
       <p>${arrayOfCurves[i].curveName}</p>
       <div style="background: ${colorPalette[i]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
-    <div class="curve-card-settings">
+    <div class="card-body">
       <p>Curve Type: ${arrayOfCurves[i].curveType}</p>
       <p>Pick Up Setting: ${arrayOfCurves[i].pickUpSetting} A</p>
       <p>Time Multiplier: ${arrayOfCurves[i].timeMultiplier}</p>
@@ -48,9 +62,49 @@ form.addEventListener("submit", (event) => {
   drawChart(arrayOfCurves);
 });
 
+flForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const faultLevel = {
+    locationName: faultLocationElement.value,
+    locationLevel: Number.parseInt(faultLevelElement.value),
+    data: [],
+  };
+  console.log(faultLevel);
+
+  arrayOfFLs.push(faultLevel);
+
+  for (let i = 0; i < arrayOfFLs.length; i++) {
+    arrayOfFLs[i].backgroundColor = colorPalette[i];
+    arrayOfFLs[i].borderColor = colorPalette[i];
+
+    let x = arrayOfFLs[i].locationLevel;
+    let y = 0;
+    arrayOfFLs[i].data.push({ x, y });
+
+    x = arrayOfFLs[i].locationLevel;
+    y = 6000;
+    arrayOfFLs[i].data.push({ x, y });
+
+    arrayOfFLCards[i].classList.add("cdc-visible");
+    arrayOfFLCards[i].innerHTML = `
+    <div class="card-title">
+      <p>${arrayOfFLs[i].locationName}</p>
+      <div style="background: ${colorPalette[i]}; height: 10px; width: 10px; border-radius: 50%"></div>
+    </div>
+    <div class="card-body">
+      <p>Fault level: ${arrayOfFLs[i].locationLevel}</p>
+    </div>`;
+  }
+
+  console.log(arrayOfFLs);
+
+  drawChart(arrayOfCurves);
+});
+
+//Function draws the chart
 function drawChart(pArrayOfCurves) {
-  console.log(pArrayOfCurves);
   calculateChartData();
+
   if (myChart) {
     myChart.destroy();
   }
@@ -91,18 +145,18 @@ function drawChart(pArrayOfCurves) {
 }
 
 // Get the modal and it's sub elements
-const modal = document.getElementById("myModal");
-const modalCurveName = document.getElementById("m-curve-name");
-const modalCurveType = document.getElementById("m-curve-type");
-const modalPickUpSetting = document.getElementById("m-pick-up-setting");
-const modalTimeMultiplier = document.getElementById("m-time-multiplier");
-const modalSaveButton = document.getElementById("m-save-btn");
-const modalDeleteButton = document.getElementById("m-delete-btn");
+const curveModal = document.getElementById("curveModal");
+const curveModalCurveName = document.getElementById("m-curve-name");
+const curveModalCurveType = document.getElementById("m-curve-type");
+const curveModalPickUpSetting = document.getElementById("m-pick-up-setting");
+const curveModalTimeMultiplier = document.getElementById("m-time-multiplier");
+const curveModalSaveButton = document.getElementById("m-save-btn");
+const curveModalDeleteButton = document.getElementById("m-delete-btn");
 
-// When the user clicks anywhere outside of the modal, close it
+// When the user clicks anywhere outside of the curveModal, close it
 window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+  if (event.target == curveModal) {
+    curveModal.style.display = "none";
   }
 };
 
@@ -112,33 +166,33 @@ let selectedCardIndex;
 for (let i = 0; i < arrayOfCurvesCards.length; i++) {
   arrayOfCurvesCards[i].addEventListener("click", (event) => {
     event.preventDefault();
-    modal.style.display = "block";
-    modalCurveName.value = `${arrayOfCurves[i].curveName}`;
-    modalCurveType.value = `${arrayOfCurves[i].curveType}`;
-    modalPickUpSetting.value = `${arrayOfCurves[i].pickUpSetting}`;
-    modalTimeMultiplier.value = `${arrayOfCurves[i].timeMultiplier}`;
+    curveModal.style.display = "block";
+    curveModalCurveName.value = `${arrayOfCurves[i].curveName}`;
+    curveModalCurveType.value = `${arrayOfCurves[i].curveType}`;
+    curveModalPickUpSetting.value = `${arrayOfCurves[i].pickUpSetting}`;
+    curveModalTimeMultiplier.value = `${arrayOfCurves[i].timeMultiplier}`;
     selectedCardIndex = i;
   });
 }
 
-modalSaveButton.addEventListener("click", (event) => {
+curveModalSaveButton.addEventListener("click", (event) => {
   event.preventDefault();
-  arrayOfCurves[selectedCardIndex].curveName = modalCurveName.value;
-  arrayOfCurves[selectedCardIndex].curveType = modalCurveType.value;
+  arrayOfCurves[selectedCardIndex].curveName = curveModalCurveName.value;
+  arrayOfCurves[selectedCardIndex].curveType = curveModalCurveType.value;
   arrayOfCurves[selectedCardIndex].pickUpSetting = Number.parseInt(
-    modalPickUpSetting.value,
+    curveModalPickUpSetting.value,
   );
   arrayOfCurves[selectedCardIndex].timeMultiplier = Number.parseFloat(
-    modalTimeMultiplier.value,
+    curveModalTimeMultiplier.value,
   );
 
   //update the curve card
   arrayOfCurvesCards[selectedCardIndex].innerHTML = `
-    <div class="curve-card-title">
+    <div class="card-title">
       <p>${arrayOfCurves[selectedCardIndex].curveName}</p>
       <div style="background: ${colorPalette[selectedCardIndex]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
-    <div class="curve-card-settings">
+    <div class="card-body">
       <p>Curve Type: ${arrayOfCurves[selectedCardIndex].curveType}</p>
       <p>Pick Up Setting: ${arrayOfCurves[selectedCardIndex].pickUpSetting} A</p>
       <p>Time Multiplier: ${arrayOfCurves[selectedCardIndex].timeMultiplier}</p>
@@ -146,10 +200,10 @@ modalSaveButton.addEventListener("click", (event) => {
   //redraw the chart
   drawChart(arrayOfCurves);
 
-  modal.style.display = "none";
+  curveModal.style.display = "none";
 });
 
-modalDeleteButton.addEventListener("click", (event) => {
+curveModalDeleteButton.addEventListener("click", (event) => {
   event.preventDefault();
 
   //redraw the chart
@@ -168,18 +222,17 @@ modalDeleteButton.addEventListener("click", (event) => {
 
     arrayOfCurvesCards[i].classList.add("cdc-visible");
     arrayOfCurvesCards[i].innerHTML = `
-    <div class="curve-card-title">
+    <div class="card-title">
       <p>${arrayOfCurves[i].curveName}</p>
       <div style="background: ${colorPalette[i]}; height: 10px; width: 10px; border-radius: 50%"></div>
     </div>
-    <div class="curve-card-settings">
+    <div class="card-body">
       <p>Curve Type: ${arrayOfCurves[i].curveType}</p>
       <p>Pick Up Setting: ${arrayOfCurves[i].pickUpSetting} A</p>
       <p>Time Multiplier: ${arrayOfCurves[i].timeMultiplier}</p>
     </div>`;
   }
-
-  modal.style.display = "none";
+  curveModal.style.display = "none";
 });
 
 function calculateChartData() {

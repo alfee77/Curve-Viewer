@@ -12,64 +12,92 @@
       <header>
         <h1>Curve viewer</h1>
       </header>
-      <div class="curve-creator main-area">
-        <h2>Enter curve data:</h2>
-        <form action="" class="curve-creator-input" id="curve-creator-input">
-          <label for="curve-name">Curve name:</label>
-          <input type="text" id="curve-name" />
-          <label for="curve-type">Select curve type:</label>
-          <select name="curve-type" id="curve-type">
-            <option value="">--Choose--</option>
-            <option value="SI">Standard inverse</option>
-            <option value="VI">Very inverse</option>
-            <option value="EI">Extremely inverse</option>
-            <option value="LTI">Long time inverse</option>
-          </select>
-          <label for="pick-up-setting">Pick up setting:</label>
-          <input type="number" id="pick-up-setting" name="pick-up-setting" />
-          <label for="time-multiplier">Time multiplier:</label>
-          <input
-            type="number"
-            id="time-multiplier"
-            name="time-multiplier"
-            min="0"
-            max="1"
-            step="0.001"
-          />
-          <button type="submit" class="btn">Add curve</button>
-        </form>
-      </div>
       <div class="main-area">
-        <h2>Grading chart</h2>
-        <div class="chart-area">
-          <canvas id="theChart"></canvas>
-        </div>
-      </div>
-      <div class="curve-data main-area">
-        <h2>Chart data</h2>
-        <div class="curve-data-cards">
-          <div class="curve-card cdc0"></div>
-          <div class="curve-card cdc1"></div>
-          <div class="curve-card cdc2"></div>
-          <div class="curve-card cdc3"></div>
-          <div class="curve-card cdc4"></div>
-          <div class="curve-card cdc5"></div>
-          <div class="curve-card cdc6"></div>
-          <div class="curve-card cdc7"></div>
-          <div class="curve-card cdc8"></div>
-          <div class="curve-card cdc9"></div>
-        </div>
-      </div>
+        <div class="curve-creator">
+          <h2>Enter curve data:</h2>
+          <form action="" class="form-input" id="curve-creator-input">
+            <label for="curve-name">Curve name:</label>
+            <input type="text" id="curve-name" placeholder="e.g. SGT1 HVOC" />
+            <label for="curve-type">Select curve type:</label>
+            <select name="curve-type" id="curve-type">
+              <option value="">--Choose--</option>
+              <option value="SI">Standard inverse</option>
+              <option value="VI">Very inverse</option>
+              <option value="EI">Extremely inverse</option>
+              <option value="LTI">Long time inverse</option>
+            </select>
+            <label for="pick-up-setting">Pick up setting:</label>
+            <input type="number" id="pick-up-setting" name="pick-up-setting" />
+            <label for="time-multiplier">Time multiplier:</label>
+            <input
+              type="number"
+              id="time-multiplier"
+              name="time-multiplier"
+              min="0"
+              max="1"
+              step="0.001"
+            />
+            <button type="submit" class="btn">Add curve</button>
+          </form>
 
-      <div id="myModal" class="modal">
+          <h2>Enter fault level data:</h2>
+          <form action="" class="form-input" id="fault-level-input">
+            <label for="fault-location">Fault location:</label>
+            <input
+              type="text"
+              id="fault-location"
+              placeholder="e.g. SGT1 max let through."
+            />
+            <label for="fault-level">Fault level:</label>
+            <input type="number" id="fault-level" name="fault-level" />
+
+            <button type="submit" class="btn">Add fault level</button>
+          </form>
+        </div>
+        <div class="curve-area">
+          <h2>Grading chart</h2>
+          <div class="chart-area">
+            <canvas id="theChart"></canvas>
+          </div>
+        </div>
+        <div class="curve-data">
+          <h2>Curve data</h2>
+          <div class="curve-data-cards">
+            <div class="curve-card cdc0"></div>
+            <div class="curve-card cdc1"></div>
+            <div class="curve-card cdc2"></div>
+            <div class="curve-card cdc3"></div>
+            <div class="curve-card cdc4"></div>
+            <div class="curve-card cdc5"></div>
+            <div class="curve-card cdc6"></div>
+            <div class="curve-card cdc7"></div>
+            <div class="curve-card cdc8"></div>
+            <div class="curve-card cdc9"></div>
+          </div>
+          <h2>Fault level data</h2>
+          <div class="fl-data-cards">
+            <div class="fl-card fldc0"></div>
+            <div class="fl-card fldc1"></div>
+            <div class="fl-card fldc2"></div>
+            <div class="fl-card fldc3"></div>
+            <div class="fl-card fldc4"></div>
+            <div class="fl-card fldc5"></div>
+            <div class="fl-card fldc6"></div>
+            <div class="fl-card fldc7"></div>
+            <div class="fl-card fldc8"></div>
+            <div class="fl-card fldc9"></div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <p>Footer content</p>
+      </footer>
+
+      <div id="curveModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
           <!-- <span class="close">&times;</span> -->
-          <form
-            action=""
-            class="curve-modifier-input"
-            id="curve-modifier-input"
-          >
+          <form action="" class="form-input" id="curve-modifier-input">
             <label for="curve-name">Curve name:</label>
             <input type="text" id="m-curve-name" />
             <label for="curve-type">Curve type:</label>
@@ -100,9 +128,25 @@
           </form>
         </div>
       </div>
-      <footer>
-        <p>Footer content</p>
-      </footer>
+
+      <div id="faultLevelModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <!-- <span class="close">&times;</span> -->
+          <form action="" class="form-input" id="fault-level-input">
+            <label for="fault-location">Fault location:</label>
+            <input
+              type="text"
+              id="fault-location"
+              placeholder="e.g. SGT1 max let through."
+            />
+            <label for="fault-level">Fault level:</label>
+            <input type="number" id="fault-level" name="fault-level" />
+
+            <button type="submit" class="btn">Add fault level</button>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
   <script src="src/index.js" type="module"></script>

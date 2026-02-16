@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="src/main.css" />
+  </head>
+  <body>
+    <h1>Grid Recap</h1>
+    <ul>
+      <li>CSS Grid is the most advanced layout type.</li>
+      <li>
+        Grid does <strong>not</strong> replace Flexbox. Both layouts have their
+        use cases.
+      </li>
+      <li>
+        The element with <code>display: grid</code> is called the
+        <strong>grid container</strong>.
+      </li>
+      <li>
+        The direct descendants of a <em>grid container</em> are called
+        <strong>grid items</strong>.
+      </li>
+      <li>
+        The <code>grid-template-columns</code> defines the tracks of a grid in
+        the column direction. It lets you define the number of tracks and their
+        sizes. This property is defined on the <em>grid container</em>.
+      </li>
+      <li>
+        The <code>grid-template-rows</code> property allows you to define tracks
+        in the <em>row</em> direction. This property only works on a
+        <em>grid container</em>.
+      </li>
+      <li>
+        We'll use the <code>fr</code> unit to define responsive track sizes.
+      </li>
+      <li>
+        The <code>gap</code> property sets the gutters between the grid tracks.
+      </li>
+      <li>
+        When <code>auto</code> is used in combination with the
+        <code>fr</code> unit, <code>auto</code> is calculated <em>before</em>
+        <code>fr</code>.
+      </li>
+      <li>
+        The <code>minmax()</code> function takes two parameters,
+        <code>min</code> and <code>max</code>, and defines an acceptable range
+        from the <code>min</code> value to the <code>max</code> value.
+      </li>
+      <li>
+        <code>repeat(auto-fit, minmax(150px, 1fr))</code> responsively fits as
+        many 150px columns as possible. The remaining space is distributed.
+      </li>
+      <li>
+        The <code>grid-column</code> shorthand
+        <code>grid-column: grid-column-start / grid-column-end;</code> allows
+        you to set the start and end values in one go (separated with a forward
+        slash <code>/</code>).
+      </li>
+      <li>
+        The <code>grid-row</code> property is used on a grid item and can be
+        used to specify the start and end position on the row lines.
+      </li>
+      <li>
+        The <code>grid-area</code> accepts the following syntax:
+        <code>row-start / column-start / row-end / column-end</code>.
+      </li>
+      <li>
+        <code>grid-template-columns: [sidebar] 100px [main] 1fr [last];</code>
+        defines two tracks with three (named) grid lines.
+      </li>
+      <li>
+        Implicit rows' sizes can be controlled by the
+        <code>grid-auto-rows</code> property.
+      </li>
+      <li>
+        The default flow of grid items is <code>row</code>. It can be customized
+        with the <code>grid-auto-flow</code> property.
+      </li>
+      <li>
+        <code>grid-auto-flow: column</code> would create new
+        <em>implicit columns</em> if necessary.
+      </li>
+      <li>
+        Implicit columns' sizes can be controlled by the
+        <code>grid-auto-columns</code> property.
+      </li>
+      <li>
+        The <code>justify</code> keyword refers to the
+        <em>inline</em> direction.
+      </li>
+      <li>
+        The <code>align</code> keyword refers to the <em>block</em> direction.
+      </li>
+      <li>
+        The <code>content</code> keyword refers to the grid structure as a
+        whole.
+      </li>
+      <li>
+        The <code>items</code> keyword refers to the grid items in relation to
+        their grid cells.
+      </li>
+      <li>
+        <code>display: grid; place-items: center</code> is a quick way to center
+        a grid layout with a single grid item.
+      </li>
+    </ul>
+  </body>
+</html>

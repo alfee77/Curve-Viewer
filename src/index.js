@@ -1,7 +1,9 @@
 import { Chart, plugins } from "chart.js/auto";
 
 // Curve input elements
-const curveForm = document.getElementById("curve-creator-input");
+const addCurveBtn = document.getElementById("addCurveBtn");
+const addCurveModal = document.getElementById("addCurveModal");
+const curveForm = document.getElementById("curve-creation-form");
 const curveNameElement = document.getElementById("curve-name");
 const curveTypeElement = document.getElementById("curve-type");
 const pickUpSettingElement = document.getElementById("pick-up-setting");
@@ -9,7 +11,9 @@ const timeMultiplierElement = document.getElementById("time-multiplier");
 let arrayOfCurves = [];
 
 //Fault level input elements
-const flForm = document.getElementById("fault-level-input");
+const addFLButton = document.getElementById("addFLBtn");
+const addFLModal = document.getElementById("addFLModal");
+const flForm = document.getElementById("fault-level-creation-form");
 const faultLocationElement = document.getElementById("fault-location");
 const faultLevelElement = document.getElementById("fault-level");
 let arrayOfFLs = [];
@@ -29,6 +33,16 @@ for (let i = 0; i < 10; i++) {
 for (let i = 0; i < 10; i++) {
   arrayOfFLCards.push(document.querySelector(`.fldc${i}`));
 }
+
+addCurveBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  addCurveModal.style.display = "block";
+});
+
+addFLButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  addFLModal.style.display = "block";
+});
 
 curveForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -60,6 +74,7 @@ curveForm.addEventListener("submit", (event) => {
   }
 
   drawChart(arrayOfCurves);
+  addCurveModal.style.display = "none";
 });
 
 flForm.addEventListener("submit", (event) => {
@@ -144,19 +159,27 @@ function drawChart(pArrayOfCurves) {
   myChart = new Chart(chartArea, config);
 }
 
-// Get the modal and it's sub elements
-const curveModal = document.getElementById("curveModal");
-const curveModalCurveName = document.getElementById("m-curve-name");
-const curveModalCurveType = document.getElementById("m-curve-type");
-const curveModalPickUpSetting = document.getElementById("m-pick-up-setting");
-const curveModalTimeMultiplier = document.getElementById("m-time-multiplier");
-const curveModalSaveButton = document.getElementById("m-save-btn");
-const curveModalDeleteButton = document.getElementById("m-delete-btn");
+// Get the edit modal and it's sub elements
+const editCurveModal = document.getElementById("editCurveModal");
+const editCurveModalCurveName = document.getElementById("m-curve-name");
+const editCurveModalCurveType = document.getElementById("m-curve-type");
+const editCurveModalPickUpSetting =
+  document.getElementById("m-pick-up-setting");
+const editCurveModalTimeMultiplier =
+  document.getElementById("m-time-multiplier");
+const editCurveModalSaveButton = document.getElementById("m-save-btn");
+const editCurveModalDeleteButton = document.getElementById("m-delete-btn");
 
-// When the user clicks anywhere outside of the curveModal, close it
+// When the user clicks anywhere outside of the add or editCurveModal, close it
 window.onclick = function (event) {
-  if (event.target == curveModal) {
-    curveModal.style.display = "none";
+  if (
+    event.target == editCurveModal ||
+    event.target == addCurveModal ||
+    event.target == addFLModal
+  ) {
+    editCurveModal.style.display = "none";
+    addCurveModal.style.display = "none";
+    addFLModal.style.display = "none";
   }
 };
 
@@ -166,24 +189,24 @@ let selectedCardIndex;
 for (let i = 0; i < arrayOfCurvesCards.length; i++) {
   arrayOfCurvesCards[i].addEventListener("click", (event) => {
     event.preventDefault();
-    curveModal.style.display = "block";
-    curveModalCurveName.value = `${arrayOfCurves[i].curveName}`;
-    curveModalCurveType.value = `${arrayOfCurves[i].curveType}`;
-    curveModalPickUpSetting.value = `${arrayOfCurves[i].pickUpSetting}`;
-    curveModalTimeMultiplier.value = `${arrayOfCurves[i].timeMultiplier}`;
+    editCurveModal.style.display = "block";
+    editCurveModalCurveName.value = `${arrayOfCurves[i].curveName}`;
+    editCurveModalCurveType.value = `${arrayOfCurves[i].curveType}`;
+    editCurveModalPickUpSetting.value = `${arrayOfCurves[i].pickUpSetting}`;
+    editCurveModalTimeMultiplier.value = `${arrayOfCurves[i].timeMultiplier}`;
     selectedCardIndex = i;
   });
 }
 
-curveModalSaveButton.addEventListener("click", (event) => {
+editCurveModalSaveButton.addEventListener("click", (event) => {
   event.preventDefault();
-  arrayOfCurves[selectedCardIndex].curveName = curveModalCurveName.value;
-  arrayOfCurves[selectedCardIndex].curveType = curveModalCurveType.value;
+  arrayOfCurves[selectedCardIndex].curveName = editCurveModalCurveName.value;
+  arrayOfCurves[selectedCardIndex].curveType = editCurveModalCurveType.value;
   arrayOfCurves[selectedCardIndex].pickUpSetting = Number.parseInt(
-    curveModalPickUpSetting.value,
+    editCurveModalPickUpSetting.value,
   );
   arrayOfCurves[selectedCardIndex].timeMultiplier = Number.parseFloat(
-    curveModalTimeMultiplier.value,
+    editCurveModalTimeMultiplier.value,
   );
 
   //update the curve card
@@ -200,10 +223,10 @@ curveModalSaveButton.addEventListener("click", (event) => {
   //redraw the chart
   drawChart(arrayOfCurves);
 
-  curveModal.style.display = "none";
+  editCurveModal.style.display = "none";
 });
 
-curveModalDeleteButton.addEventListener("click", (event) => {
+editCurveModalDeleteButton.addEventListener("click", (event) => {
   event.preventDefault();
 
   //redraw the chart
@@ -232,7 +255,7 @@ curveModalDeleteButton.addEventListener("click", (event) => {
       <p>Time Multiplier: ${arrayOfCurves[i].timeMultiplier}</p>
     </div>`;
   }
-  curveModal.style.display = "none";
+  editCurveModal.style.display = "none";
 });
 
 function calculateChartData() {

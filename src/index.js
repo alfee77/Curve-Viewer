@@ -3,7 +3,7 @@ import { Chart, plugins } from "chart.js/auto";
 // Curve input elements
 const addCurveBtn = document.getElementById("addCurveBtn");
 const addCurveModal = document.getElementById("addCurveModal");
-const curveForm = document.getElementById("curve-creation-form");
+const curveCreationForm = document.getElementById("curve-creation-form");
 const curveNameElement = document.getElementById("curve-name");
 const curveTypeElement = document.getElementById("curve-type");
 const pickUpSettingElement = document.getElementById("pick-up-setting");
@@ -11,7 +11,7 @@ const timeMultiplierElement = document.getElementById("time-multiplier");
 let arrayOfCurves = [];
 
 //Fault level input elements
-const addFLButton = document.getElementById("addFLBtn");
+const addFLBtn = document.getElementById("addFLBtn");
 const addFLModal = document.getElementById("addFLModal");
 const flForm = document.getElementById("fault-level-creation-form");
 const faultLocationElement = document.getElementById("fault-location");
@@ -26,11 +26,11 @@ const colorPalette = ["#f79256ff", "#7dcfb6ff", "#00b2caff", "#1d4e89ff"];
 //card elements
 let arrayOfCurvesCards = [];
 let arrayOfFLCards = [];
-for (let i = 0; i < 10; i++) {
-  arrayOfCurvesCards.push(document.querySelector(`.cdc${i}`));
-}
+
+let selectedCardIndex;
 
 for (let i = 0; i < 10; i++) {
+  arrayOfCurvesCards.push(document.querySelector(`.cdc${i}`));
   arrayOfFLCards.push(document.querySelector(`.fldc${i}`));
 }
 
@@ -39,12 +39,12 @@ addCurveBtn.addEventListener("click", (event) => {
   addCurveModal.style.display = "block";
 });
 
-addFLButton.addEventListener("click", (event) => {
+addFLBtn.addEventListener("click", (event) => {
   event.preventDefault();
   addFLModal.style.display = "block";
 });
 
-curveForm.addEventListener("submit", (event) => {
+curveCreationForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const curve = {
@@ -84,7 +84,6 @@ flForm.addEventListener("submit", (event) => {
     locationLevel: Number.parseInt(faultLevelElement.value),
     data: [],
   };
-  console.log(faultLevel);
 
   arrayOfFLs.push(faultLevel);
 
@@ -111,7 +110,7 @@ flForm.addEventListener("submit", (event) => {
     </div>`;
   }
 
-  console.log(arrayOfFLs);
+  addFLModal.style.display = "none";
 
   drawChart(arrayOfCurves);
 });
@@ -159,7 +158,7 @@ function drawChart(pArrayOfCurves) {
   myChart = new Chart(chartArea, config);
 }
 
-// Get the edit modal and it's sub elements
+// Get the edit curve modal and it's sub elements
 const editCurveModal = document.getElementById("editCurveModal");
 const editCurveModalCurveName = document.getElementById("m-curve-name");
 const editCurveModalCurveType = document.getElementById("m-curve-type");
@@ -169,21 +168,6 @@ const editCurveModalTimeMultiplier =
   document.getElementById("m-time-multiplier");
 const editCurveModalSaveButton = document.getElementById("m-save-btn");
 const editCurveModalDeleteButton = document.getElementById("m-delete-btn");
-
-// When the user clicks anywhere outside of the add or editCurveModal, close it
-window.onclick = function (event) {
-  if (
-    event.target == editCurveModal ||
-    event.target == addCurveModal ||
-    event.target == addFLModal
-  ) {
-    editCurveModal.style.display = "none";
-    addCurveModal.style.display = "none";
-    addFLModal.style.display = "none";
-  }
-};
-
-let selectedCardIndex;
 
 //This adds the event listener to each curve details card
 for (let i = 0; i < arrayOfCurvesCards.length; i++) {
@@ -258,6 +242,76 @@ editCurveModalDeleteButton.addEventListener("click", (event) => {
   editCurveModal.style.display = "none";
 });
 
+// Get the edit curve modal and it's sub elements
+const editFLModal = document.getElementById("editFLModal");
+const editFLModalFaultLocation = document.getElementById("flm-fault-location");
+const editFLModalFaultLevel = document.getElementById("flm-fault-level");
+const editFLModalSaveButton = document.getElementById("flm-save-btn");
+const editFLModalDeleteButton = document.getElementById("flm-delete-btn");
+
+//This adds the event listener to each FL details card
+for (let i = 0; i < arrayOfFLCards.length; i++) {
+  arrayOfFLCards[i].addEventListener("click", (event) => {
+    event.preventDefault();
+    editFLModal.style.display = "block";
+    editFLModalFaultLocation.value = arrayOfFLs[i].locationName;
+    editFLModalFaultLevel.value = arrayOfFLs[i].locationLevel;
+
+    selectedCardIndex = i;
+  });
+}
+
+editFLModalSaveButton.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  arrayOfFLs[selectedCardIndex].locationName = editFLModalFaultLocation.value;
+  arrayOfFLs[selectedCardIndex].locationLevel = editFLModalFaultLevel.value;
+
+  //update the FL card
+  arrayOfFLCards[selectedCardIndex].innerHTML = `
+    <div class="card-title">
+      <p>${arrayOfFLs[selectedCardIndex].locationName}</p>
+      <div style="background: ${colorPalette[selectedCardIndex]}; height: 10px; width: 10px; border-radius: 50%"></div>
+    </div>
+    <div class="card-body">
+      <p>Fault level: ${arrayOfFLs[selectedCardIndex].locationLevel}</p>
+    </div>`;
+  //redraw the chart
+  drawChart(arrayOfCurves);
+
+  editFLModal.style.display = "none";
+});
+
+editFLModalDeleteButton.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  //redraw the chart
+  arrayOfFLs.splice(selectedCardIndex, 1);
+  arrayOfFLCards[selectedCardIndex].classList.remove("cdc-visible");
+  selectedCardIndex = 0;
+  drawChart(arrayOfCurves);
+
+  for (let i = 0; i < arrayOfFLCards.length; i++) {
+    arrayOfFLCards[i].classList.remove("cdc-visible");
+  }
+
+  for (let i = 0; i < arrayOfFLs.length; i++) {
+    arrayOfFLs[i].backgroundColor = colorPalette[i];
+    arrayOfFLs[i].borderColor = colorPalette[i];
+
+    arrayOfFLCards[i].innerHTML = `
+    <div class="card-title">
+      <p>${arrayOfFLs[i].locationName}</p>
+      <div style="background: ${colorPalette[i]}; height: 10px; width: 10px; border-radius: 50%"></div>
+    </div>
+    <div class="card-body">
+      <p>Fault level: ${arrayOfFLs[i].locationLevel} A</p>
+    </div>`;
+    arrayOfFLCards[i].classList.add("cdc-visible");
+  }
+  editFLModal.style.display = "none";
+});
+
 function calculateChartData() {
   arrayOfCurves.forEach((curve) => {
     curve.maxCurrent = Math.min(curve.pickUpSetting * 100, 63000);
@@ -314,3 +368,28 @@ function calculateChartData() {
     }
   });
 }
+
+// When the user clicks anywhere outside of the add or editCurveModal, close it
+window.onclick = function (event) {
+  if (
+    event.target == addCurveModal ||
+    event.target == editCurveModal ||
+    event.target == addFLModal ||
+    event.target == editFLModal
+  ) {
+    editCurveModal.style.display = "none";
+    addCurveModal.style.display = "none";
+    addFLModal.style.display = "none";
+    editFLModal.style.display = "none";
+  }
+};
+
+// When the user clicks the escape key close all modals
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    editCurveModal.style.display = "none";
+    addCurveModal.style.display = "none";
+    addFLModal.style.display = "none";
+    editFLModal.style.display = "none";
+  }
+});

@@ -73,7 +73,7 @@ curveCreationForm.addEventListener("submit", (event) => {
     </div>`;
   }
 
-  drawChart(arrayOfCurves);
+  drawChart(arrayOfCurves, arrayOfFLs);
   addCurveModal.style.display = "none";
 });
 
@@ -92,7 +92,7 @@ flForm.addEventListener("submit", (event) => {
     arrayOfFLs[i].borderColor = colorPalette[i];
 
     let x = arrayOfFLs[i].locationLevel;
-    let y = 0;
+    let y = 0.1;
     arrayOfFLs[i].data.push({ x, y });
 
     x = arrayOfFLs[i].locationLevel;
@@ -112,11 +112,16 @@ flForm.addEventListener("submit", (event) => {
 
   addFLModal.style.display = "none";
 
-  drawChart(arrayOfCurves);
+  drawChart(arrayOfCurves, arrayOfFLs);
 });
 
 //Function draws the chart
-function drawChart(pArrayOfCurves) {
+function drawChart(pArrayOfCurves, pArrayOfFLs) {
+  console.log(pArrayOfCurves);
+  console.log(pArrayOfFLs);
+  const arrayOfData = pArrayOfCurves.concat(pArrayOfFLs);
+
+  console.log(arrayOfData);
   calculateChartData();
 
   if (myChart) {
@@ -126,7 +131,7 @@ function drawChart(pArrayOfCurves) {
   const config = {
     type: "line",
     data: {
-      datasets: pArrayOfCurves,
+      datasets: arrayOfData,
     },
     options: {
       plugins: {
@@ -205,7 +210,7 @@ editCurveModalSaveButton.addEventListener("click", (event) => {
       <p>Time Multiplier: ${arrayOfCurves[selectedCardIndex].timeMultiplier}</p>
     </div>`;
   //redraw the chart
-  drawChart(arrayOfCurves);
+  drawChart(arrayOfCurves, arrayOfFLs);
 
   editCurveModal.style.display = "none";
 });
@@ -217,7 +222,7 @@ editCurveModalDeleteButton.addEventListener("click", (event) => {
   arrayOfCurves.splice(selectedCardIndex, 1);
   arrayOfCurvesCards[selectedCardIndex].classList.remove("cdc-visible");
   selectedCardIndex = 0;
-  drawChart(arrayOfCurves);
+  drawChart(arrayOfCurves, arrayOfFLs);
 
   for (let i = 0; i < arrayOfCurvesCards.length; i++) {
     arrayOfCurvesCards[i].classList.remove("cdc-visible");
@@ -277,7 +282,7 @@ editFLModalSaveButton.addEventListener("click", (event) => {
       <p>Fault level: ${arrayOfFLs[selectedCardIndex].locationLevel}</p>
     </div>`;
   //redraw the chart
-  drawChart(arrayOfCurves);
+  drawChart(arrayOfCurves, arrayOfFLs);
 
   editFLModal.style.display = "none";
 });
@@ -289,7 +294,7 @@ editFLModalDeleteButton.addEventListener("click", (event) => {
   arrayOfFLs.splice(selectedCardIndex, 1);
   arrayOfFLCards[selectedCardIndex].classList.remove("cdc-visible");
   selectedCardIndex = 0;
-  drawChart(arrayOfCurves);
+  drawChart(arrayOfCurves, arrayOfFLs);
 
   for (let i = 0; i < arrayOfFLCards.length; i++) {
     arrayOfFLCards[i].classList.remove("cdc-visible");
@@ -392,4 +397,10 @@ document.addEventListener("keydown", (event) => {
     addFLModal.style.display = "none";
     editFLModal.style.display = "none";
   }
+});
+
+const menuBtn = document.getElementById("menu-btn");
+const menu = document.getElementById("menu");
+menuBtn.addEventListener("click", (event) => {
+  menu.classList.toggle("visible");
 });

@@ -187,3 +187,18 @@ footer {
 .cdc-visible {
   visibility: visible;
 }
+
+.side-bar {
+  position: fixed;
+  height: 95vh;
+  background-color: white;
+  padding: 50px;
+  border: solid black 1px;
+  translate: -250px;
+  transition: translate 300ms;
+  overflow-y: scroll;
+}
+
+.visible {
+  translate: 0px;
+}

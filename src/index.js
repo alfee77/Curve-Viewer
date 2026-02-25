@@ -92,7 +92,7 @@ flForm.addEventListener("submit", (event) => {
     arrayOfFLs[i].borderColor = colorPalette[i];
 
     let x = arrayOfFLs[i].locationLevel;
-    let y = 0.1;
+    let y = 0.5;
     arrayOfFLs[i].data.push({ x, y });
 
     x = arrayOfFLs[i].locationLevel;
@@ -397,10 +397,4 @@ document.addEventListener("keydown", (event) => {
     addFLModal.style.display = "none";
     editFLModal.style.display = "none";
   }
-});
-
-const menuBtn = document.getElementById("menu-btn");
-const menu = document.getElementById("menu");
-menuBtn.addEventListener("click", (event) => {
-  menu.classList.toggle("visible");
 });
